@@ -8,7 +8,8 @@ from flask import Flask, redirect, render_template, request, session, url_for
 
 # Here we initialise our application
 app = Flask(__name__)
-app.secret_key = "randomstring123"
+# "randomstring123" is left there as the second argument because this becomes the default value if Flask can't find a variable called SECRET
+app.secret_key = os.getenv("SECRET", "randomstring123")
 messages = []
 
 
@@ -50,4 +51,4 @@ def user(username):
     return render_template("chat.html", username = username, chat_messages = messages)
     
     
-app.run(host=os.getenv('IP'), port=int(os.getenv('PORT')), debug=True)
+app.run(host=os.getenv('IP', '0.0.0.0'), port=int(os.getenv('PORT', '5000')), debug=False)
